@@ -1,0 +1,23 @@
+{
+	"blt_version" : 2,
+	"name" : "moneythrower-standalone",
+	"author" : "mercu",
+	"description" : "paranoia version",
+	"contact" : "https://steamcommunity.com/id/mercuwu/",
+	"color" : "255 182 193"
+	"version" : "1.0",
+	"hooks" : [
+        {
+			"hook_id" : "lib/tweak_data/weaponfactorytweakdata",
+			"script_path" : "hooks/weaponfactorytweakdata.lua"
+		},
+        {
+			"hook_id" : "lib/tweak_data/weapontweakdata",
+			"script_path" : "hooks/weapontweakdata.lua"
+		},
+		{
+			"hook_id" : "lib/managers/localizationmanager",
+			"script_path" : "hooks/localizationmanager.lua"
+		}
+	]
+}
