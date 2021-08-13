@@ -2,14 +2,14 @@ if not _G.MTS then
 	dofile(ModPath .. "scripts/setup.lua")
 end
 
-function WeaponTweakData:_init_money_standalone(weapon_data)
+function WeaponTweakData:_init_money_standalone()
 	self.money_standalone = {
 		categories = {
 			"flamethrower"
 		},
 		has_description = false,
-		damage_melee = weapon_data.damage_melee_default,
-		damage_melee_effect_mul = weapon_data.damage_melee_effect_multiplier_default,
+		damage_melee = 1.5,
+		damage_melee_effect_mul = 1.75,
 		sounds = {}
 	}
 	self.money_standalone.sounds.fire = "moneythrower_fire"
@@ -32,15 +32,15 @@ function WeaponTweakData:_init_money_standalone(weapon_data)
 	self.money_standalone.shell_ejection = "effects/payday2/particles/weapons/shells/shell_empty"
 	self.money_standalone.flame_effect = "effects/payday2/particles/explosions/moneythrower"
 	self.money_standalone.use_data = {
-		selection_index = SELECTION.SECONDARY,
+		selection_index = 1,
 		align_place = "right_hand"
 	}
 	self.money_standalone.DAMAGE = 1
 	self.money_standalone.rays = 12
 	self.money_standalone.CLIP_AMMO_MAX = 400
 	self.money_standalone.NR_CLIPS_MAX = 2
-	self.money_standalone.AMMO_MAX = self.money.CLIP_AMMO_MAX * self.money.NR_CLIPS_MAX
-	self.money_standalone.AMMO_PICKUP = self:_pickup_chance(self.money.CLIP_AMMO_MAX, PICKUP.SNIPER_HIGH_DAMAGE)
+	self.money_standalone.AMMO_MAX = self.money_standalone.CLIP_AMMO_MAX * self.money_standalone.NR_CLIPS_MAX
+	self.money_standalone.AMMO_PICKUP = self:_pickup_chance(self.money_standalone.CLIP_AMMO_MAX, 6)
 	self.money_standalone.FIRE_MODE = "auto"
 	self.money_standalone.fire_mode_data = {
 		fire_rate = 0.03
@@ -49,12 +49,12 @@ function WeaponTweakData:_init_money_standalone(weapon_data)
 		fire_rate = 0.05
 	}
 	self.money_standalone.spread = {
-		standing = self.r870.spread.standing,
-		crouching = self.r870.spread.crouching,
-		steelsight = self.r870.spread.steelsight,
-		moving_standing = self.r870.spread.moving_standing,
-		moving_crouching = self.r870.spread.moving_crouching,
-		moving_steelsight = self.r870.spread.moving_steelsight
+		standing = 3,
+		crouching = 3 * 0.4,
+		steelsight = 3 * 0.4,
+		moving_standing = 3,
+		moving_crouching = 3,
+		moving_steelsight = 3
 	}
 	self.money_standalone.kick = {
 		standing = {
@@ -64,8 +64,8 @@ function WeaponTweakData:_init_money_standalone(weapon_data)
 			0
 		}
 	}
-	self.money_standalone.kick.crouching = self.money.kick.standing
-	self.money_standalone.kick.steelsight = self.money.kick.standing
+	self.money_standalone.kick.crouching = self.money_standalone.kick.standing
+	self.money_standalone.kick.steelsight = self.money_standalone.kick.standing
 	self.money_standalone.crosshair = {
 		standing = {},
 		crouching = {},
@@ -87,8 +87,22 @@ function WeaponTweakData:_init_money_standalone(weapon_data)
 		fire_multiplier = 0,
 		fire_steelsight_multiplier = 0
 	}
-	self.money_standalone.autohit = weapon_data.autohit_shotgun_default
-	self.money_standalone.aim_assist = weapon_data.aim_assist_shotgun_default
+	self.money_standalone.autohit = {
+		INIT_RATIO = 0.15,
+		MAX_RATIO = 0.7,
+		far_angle = 1.5,
+		far_dis = 5000,
+		MIN_RATIO = 0.6,
+		near_angle = 3
+	}
+	self.money_standalone.aim_assist = {
+		INIT_RATIO = 0.15,
+		MAX_RATIO = 0.7,
+		far_angle = 1.5,
+		far_dis = 5000,
+		MIN_RATIO = 0.6,
+		near_angle = 3
+	}
 	self.money_standalone.animations = {}
 	self.money_standalone.weapon_hold = "system"
 	self.money_standalone.animations.equip_id = "equip_system"
@@ -121,11 +135,11 @@ function WeaponTweakData:_init_money_standalone(weapon_data)
 end
 
 function WeaponTweakData:_init_data_money_standalone_crew()
-	self.money_standalone_crew.categories = clone(self.money.categories)
-	self.money_standalone_crew.sounds.prefix = "moneythrower_npc"
-	self.money_standalone_crew.sounds.fire = "moneythrower_npc_fire"
-	self.money_standalone_crew.sounds.stop_fire = "moneythrower_npc_fire_stop"
-	self.money_standalone_crew.use_data.selection_index = SELECTION.SECONDARY
+	self.money_standalone_crew.categories = { "flamethrower" }
+	self.money_standalone_crew.sounds.prefix = "moneythrower_standalone_npc"
+	self.money_standalone_crew.sounds.fire = "moneythrower_standalone_npc_fire"
+	self.money_standalone_crew.sounds.stop_fire = "moneythrower_standalone_npc_fire_stop"
+	self.money_standalone_crew.use_data.selection_index = 1
 	self.money_standalone_crew.DAMAGE = 1
 	self.money_standalone_crew.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
 	self.money_standalone_crew.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
@@ -147,11 +161,11 @@ function WeaponTweakData:_init_data_money_standalone_crew()
 end
 
 Hooks:PostHook(WeaponTweakData, "init", "init_money_standalone", function(self)
-	WeaponTweakData:_init_data_money_standalone_crew()
+	--WeaponTweakData:_init_data_money_standalone_crew()
 end)
 
-Hooks:PostHook(WeaponTweakData, "_init_new_weapons", "_init_new_weapons_money_standalone", function(self, weapon_data)
-	WeaponTweakData:_init_money_standalone(weapon_data)
+Hooks:PostHook(WeaponTweakData, "_init_new_weapons", "_init_new_weapons_money_standalone", function(self)
+	WeaponTweakData:_init_money_standalone()
 end)
 
 Hooks:PostHook(WeaponTweakData, "_create_table_structure", "_create_table_structure_money_standalone", function(self)
