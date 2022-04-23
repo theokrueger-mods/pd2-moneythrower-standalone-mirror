@@ -9,3 +9,7 @@ reactivates the 'collect 2 statues' sidejob, must be completed to unlock the wea
 * REQUIRES you to complete the sidejob to unlock
 
 [ModWorkshop Page](https://modworkshop.net/mod/33599)
+
+## license
+
+MIT, see [LICENSE](LICENSE)
