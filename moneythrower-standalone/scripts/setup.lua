@@ -2,9 +2,9 @@
 _G.MTS = _G.MTS or {}
 
 MTS.dir = {
-	path = ModPath,
-	scriptpath = ModPath .. 'scripts/',
-	assetpath = ModPath .. 'assets/'
+        path = ModPath,
+        scriptpath = ModPath .. 'scripts/',
+        assetpath = ModPath .. 'assets/'
 }
 
 -- addfiles
